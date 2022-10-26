@@ -5,8 +5,6 @@
 const config = {
   experimental: {
     cpus: 4,
-    runtime: "experimental-edge",
-    appDir: true,
   },
 };
 module.exports = config;

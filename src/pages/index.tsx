@@ -20,7 +20,7 @@ const WeatherView = ({ weather: p }: { weather: Promise<Weather> }) => {
     return (
         <div>
             <h1>{weather.targetArea}</h1>
-            <div>{new Date(weather.reportDatetime).toLocaleString()}</div>
+            <div>{new Date(weather.reportDatetime).toLocaleString("ja-JP")}</div>
             <div>{weather.headlineText}</div>
             <pre>{weather.text}</pre>
         </div>)
