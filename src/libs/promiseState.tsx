@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useId, useRef, useState, createContext, Suspense } from "react"
+import { ReactNode, useContext, useId, useRef, useState, createContext, Suspense, SuspenseProps } from "react"
 
 const DATA_NAME = "__NEXT_DATA_PROMISE__"
 
@@ -6,8 +6,8 @@ type ContextType = { values: { [key: string]: unknown; }, promises: Promise<any>
 const context = createContext<ContextType>(undefined as never);
 
 export const usePromiseState = <T,>(p: Promise<T> | (() => Promise<T>)) => {
-    const c = useContext(context)
-    const id = useId()
+    const c = useContext(context);
+    const id = useId();
     const [state, setState] = useState<Promise<T>>(() => {
         if (typeof window === "undefined") {
             const promise = typeof p === "function" ? p() : p;
@@ -26,8 +26,8 @@ export const usePromiseState = <T,>(p: Promise<T> | (() => Promise<T>)) => {
 
 const DataRender = () => {
     const c = useContext(context)
-    if (!c.finished)
-        throw Promise.all(c.promises).then((v) => { c.finished = true; return v })
+    if (typeof window === "undefined" && !c.finished)
+        throw Promise.all(c.promises).then((v) => { c.finished = true; return v; })
     return <script
         id={DATA_NAME}
         type="application/json"
@@ -46,8 +46,7 @@ export const PromiseProvider = ({ children }: { children: ReactNode }) => {
     return (
         <context.Provider value={refContext.current}>
             {children}
-            <Suspense>
-                <DataRender />
-            </Suspense>
+            <DataRender />
         </context.Provider >)
 }
+

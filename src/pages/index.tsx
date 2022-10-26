@@ -26,12 +26,13 @@ const WeatherView = ({ weather: p }: { weather: Promise<Weather> }) => {
         </div>)
 }
 
+
 const Page = () => {
     //初期値はcallbackで渡す
-    const [weather, setWeather] = usePromiseState(() => fetchWeather(130000))
+    const [weather, setWeather] = usePromiseState(() => fetchWeather(130000));
     return (
         <div>
-            <div><a href="https://github.com/SoraKumo001/next-use">Source Code</a></div>
+            <div><a href="https://github.com/SoraKumo001/next-use-ssr">Source Code</a></div>
             <hr />
             <div>
                 {/* 後からstateを変更する場合は、そのままpromiseを格納してOK */}
@@ -39,7 +40,7 @@ const Page = () => {
                 <button onClick={() => setWeather(fetchWeather(120000))}>千葉</button>
                 <button onClick={() => setWeather(fetchWeather(140000))}>神奈川</button>
             </div>
-            <Suspense fallback={"読み込み中"}>
+            <Suspense fallback={"Loading"}>
                 <WeatherView weather={weather} />
             </Suspense>
         </div>
