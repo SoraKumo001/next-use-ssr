@@ -3,18 +3,25 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "export": "next export"
+    "export": "next export",
+    "lint": "next lint ./src",
+    "lint:fix": "next lint --fix ./src && prettier --write src"
   },
   "dependencies": {
     "next": "^13.0.0",
-    "react": "^18.3.0-next-fecc288b7-20221025",
-    "react-dom": "^18.3.0-next-fecc288b7-20221025"
+    "react": "^18.3.0-next-cf3932be5-20221027",
+    "react-dom": "^18.3.0-next-cf3932be5-20221027"
   },
   "devDependencies": {
-    "@types/node": "18.11.5",
-    "@types/react": "^18.0.23",
+    "@types/node": "18.11.7",
+    "@types/react": "^18.0.24",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
+    "prettier": "^2.7.1",
     "typescript": "4.8.4"
   },
   "name": "next-use",
