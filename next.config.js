@@ -5,7 +5,7 @@
 const config = {
   reactStrictMode:true,
   experimental: {
-    cpus: 4,
+    cpus: 4
   },
 };
 module.exports = config;

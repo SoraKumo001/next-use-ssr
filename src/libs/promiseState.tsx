@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useId, useRef, useState, createContext } from 'react';
+import { ReactNode, useContext, useId, useRef, useState, createContext, Suspense } from 'react';
 
 const DATA_NAME = '__NEXT_DATA_PROMISE__';
 
@@ -24,8 +24,8 @@ export const usePromiseState = <T,>(p: Promise<T> | (() => Promise<T>)) => {
     return context.values[id]
       ? Promise.resolve(context.values[id] as T)
       : typeof p === 'function'
-      ? p()
-      : p;
+        ? p()
+        : p;
   });
   return [state, setState] as const;
 };
@@ -56,12 +56,12 @@ const useContextValue = () => {
   return refContext.current;
 };
 
-export const PromiseProvider = ({ children }: { children: ReactNode }) => {
+export const PromiseProvider = ({ streaming, children }: { streaming?: boolean, children: ReactNode }) => {
   const value = useContextValue();
   return (
     <promiseContext.Provider value={value}>
       {children}
-      <DataRender />
+      {streaming ? <Suspense><DataRender /></Suspense> : <DataRender />}
     </promiseContext.Provider>
   );
 };

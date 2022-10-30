@@ -3,16 +3,19 @@ import { usePromiseState } from '../libs/promiseState';
 
 export interface WeatherType {
   publishingOffice: string;
-  reportDatetime: Date;
+  reportDatetime: string;
   targetArea: string;
   headlineText: string;
   text: string;
 }
 
-const fetchWeather = (id: number) =>
-  fetch(`https://www.jma.go.jp/bosai/forecast/data/overview_forecast/${id}.json`).then((r) =>
-    r.json()
-  );
+const fetchWeather = (id: number): Promise<WeatherType> =>
+  fetch(`https://www.jma.go.jp/bosai/forecast/data/overview_forecast/${id}.json`)
+    .then((r) => r.json())
+    .then(
+      //ウエイト追加
+      (r) => new Promise((resolve) => setTimeout(() => resolve(r), 1000))
+    );
 
 const Weather = ({ weather: p }: { weather: Promise<WeatherType> }) => {
   //Reactの新機能useでデータを取り出す
@@ -22,6 +25,7 @@ const Weather = ({ weather: p }: { weather: Promise<WeatherType> }) => {
       <h1>{weather.targetArea}</h1>
       <div>
         {new Date(weather.reportDatetime).toLocaleString('ja-JP', {
+          timeZone: 'JST',
           year: 'numeric',
           month: 'narrow',
           day: 'numeric',
